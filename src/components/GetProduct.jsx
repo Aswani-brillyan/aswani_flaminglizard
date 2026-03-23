@@ -28,11 +28,11 @@ const GetProduct = () => {
             setLoading('')
             setProducts(response.data);
 
-            let starter_dishes =response.data.filter((product)=>{
-               product.product_category === "starters";
-            });
+            let starters_products =response.data.filter((product)=>
+               product.product_category === "starters"
+            );
             
-            setStarter(starter_dishes);
+            setStarter(starters_products);
 
             
 
@@ -43,7 +43,7 @@ const GetProduct = () => {
 
       } catch (error) {
          setLoading('');
-         setError(error.messsage);
+         setError(error.message);
 
       }
    };
@@ -63,7 +63,8 @@ const GetProduct = () => {
 
 
          {/* map /loop over products to access one at a time */}
-
+         <h2 className="text-center my-3 p-4 bg-warning text-warning">Starters</h2>
+         
 
          {products.map((product) => (
             <div className="col-md-3 justify-content-center mb-4">
