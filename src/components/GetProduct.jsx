@@ -7,6 +7,11 @@ const GetProduct = () => {
    let [products, setProducts] = useState([])
    let [loading, setLoading] = useState('')
    let [error, setError] = useState('')
+   let[starters,setStarter] =useState([])
+   let[main_dish,setMainDish] =useState([])
+   let[dessert,setDessert] =useState([])
+
+
 
    //base url for image location
    const img_url='https://aswanibrillyan.alwaysdata.net/static/images/'
@@ -21,7 +26,16 @@ const GetProduct = () => {
          console.log(response)
          if (response.status === 200) {
             setLoading('')
-            setProducts(response.data)
+            setProducts(response.data);
+
+            let starter_dishes =response.data.filter((product)=>{
+               product.product_category === "starters";
+            });
+            
+            setStarter(starter_dishes);
+
+            
+
          }
 
 
