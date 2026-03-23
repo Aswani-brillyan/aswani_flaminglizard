@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const SignUpCompenent = () => {
 
@@ -76,6 +77,7 @@ const SignUpCompenent = () => {
 
     return (
         <div className="row justify-content-center mt-4">
+            <Navbar />
             <div className="col-md-6 card shadow p-4 ">
                 <h2>SignUp</h2>
                 <h5 className="text-warning">{loading}</h5>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, Links, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const LoginComponent = () => {
     let [email, updateEmail] = useState('')
@@ -26,12 +27,12 @@ const LoginComponent = () => {
             user_data.append('email', email)
             user_data.append('password', password)
 
-            const response = await axios.post('http://aswanibrillyan.alwaysdata.net/api/signin', user_data)
+            const response = await axios.post('https://aswanibrillyan.alwaysdata.net/api/login', user_data)
             console.log(response)
 
             if (response.status === 200) {
                 if (response.data.user) {
-                   
+
                     setSuccess(response.data.message)
                     navigate('/')
 
@@ -56,6 +57,7 @@ const LoginComponent = () => {
 
     return (
         <div className="row justify-content-center mt-4">
+            <Navbar />
             <div className="col-md-6 card shadow p-4">
                 <h2>Login:</h2>
                 <h5 className="text-warning">{loading}</h5>

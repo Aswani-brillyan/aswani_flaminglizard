@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const GetProduct = () => {
    let [products, setProducts] = useState([])
@@ -41,6 +42,7 @@ const GetProduct = () => {
 
    return (
       <div className="row">
+         <Navbar />
          <h2 className="text-warning">Le'Menu</h2>
          <h5 className="text-warning">{loading}</h5>
          <h5 className="text-danger">{error}</h5>
