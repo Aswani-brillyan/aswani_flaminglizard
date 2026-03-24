@@ -7,7 +7,7 @@ const GetProduct = () => {
    let [products, setProducts] = useState([])
    let [loading, setLoading] = useState('')
    let [error, setError] = useState('')
-   let[starters,setStarter] =useState([])
+   let[starter,setStarter] =useState([])
    let[main_dish,setMainDish] =useState([])
    let[dessert,setDessert] =useState([])
 
@@ -28,13 +28,24 @@ const GetProduct = () => {
             setLoading('')
             setProducts(response.data);
 
-            let starters_products =response.data.filter((product)=>
-               product.product_category === "starters"
+            let starter_products =response.data.filter((product)=>
+               product.product_category === "starter"
             );
             
-            setStarter(starters_products);
+            setStarter(starter_products);
 
+            let maindish_products =response.data.filter((product)=>
+               product.product_category === "main dish"
+            );
             
+            setMainDish(maindish_products);
+
+            let dessert_products =response.data.filter((product)=>
+               product.product_category === "dessert"
+            );
+            
+            setDessert(dessert_products);
+
 
          }
 
@@ -63,9 +74,56 @@ const GetProduct = () => {
 
 
          {/* map /loop over products to access one at a time */}
-         <h2 className="text-center my-3 p-4 bg-warning text-warning">Starters</h2>
+         <h2 className="text-center my-3 p-4 bg-danger text-warning">starter</h2>
          
 
+         {starter.map((product) => (
+            <div className="col-md-3 justify-content-center mb-4">
+               <div className="card shadow card-margin">
+                  <img src={img_url+product.product_image} alt="product_img mt-4" />
+
+                  <div className="card-body">
+                     <h5 className="mt-2">{product.product_name}</h5>
+                     <p className="text-muted">{product.product_description}</p>
+                     <b className="text-warning">{product.product_cost}</b>
+                     <br />
+                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
+                  </div>
+               </div>
+            </div>
+         ))}
+         <h2 className="text-center my-3 p-4 bg-danger text-warning">main dishes</h2>
+         {main_dish.map((product) => (
+            <div className="col-md-3 justify-content-center mb-4">
+               <div className="card shadow card-margin">
+                  <img src={img_url+product.product_image} alt="product_img mt-4" />
+
+                  <div className="card-body">
+                     <h5 className="mt-2">{product.product_name}</h5>
+                     <p className="text-muted">{product.product_description}</p>
+                     <b className="text-warning">{product.product_cost}</b>
+                     <br />
+                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
+                  </div>
+               </div>
+            </div>
+         ))}
+         <h2 className="text-center my-3 p-4 bg-danger text-warning">dessert</h2>
+         {dessert.map((product) => (
+            <div className="col-md-3 justify-content-center mb-4">
+               <div className="card shadow card-margin">
+                  <img src={img_url+product.product_image} alt="product_img mt-4" />
+
+                  <div className="card-body">
+                     <h5 className="mt-2">{product.product_name}</h5>
+                     <p className="text-muted">{product.product_description}</p>
+                     <b className="text-warning">{product.product_cost}</b>
+                     <br />
+                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
+                  </div>
+               </div>
+            </div>
+         ))}
          {products.map((product) => (
             <div className="col-md-3 justify-content-center mb-4">
                <div className="card shadow card-margin">

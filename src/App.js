@@ -5,7 +5,7 @@ import SignUpCompenent from './components/SignUpComponent';
 import LoginComponent from './components/LoginComponent';
 import AddProductComponent from './components/AddProductComponent';
 import GetProduct from './components/GetProduct';
-import Navbar from './components/Navbar';
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "bootstrap/dist/js/bootstrap.min.js"
 import MakePayment from"./components/MakePayment";
@@ -14,7 +14,7 @@ function App() {
   return (
     <BrowserRouter>
           <div className="container-fluid">
-            <Navbar />
+            
             <div className="App">
           <header className="App-header">
             <h1 className='gradient-text'>FLAMING LIZARD</h1>
