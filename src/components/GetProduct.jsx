@@ -1,146 +1,83 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+
 
 const GetProduct = () => {
-   let [products, setProducts] = useState([])
-   let [loading, setLoading] = useState('')
-   let [error, setError] = useState('')
-   let[starter,setStarter] =useState([])
-   let[main_dish,setMainDish] =useState([])
-   let[dessert,setDessert] =useState([])
+   const [products, setProducts] = useState([]);
+   const [loading, setLoading] = useState('');
+   const [error, setError] = useState('');
+   const [currentFilter, setCurrentFilter] = useState('all');
 
+   const img_url = 'https://aswanibrillyan.alwaysdata.net/static/images/';
+   const navigate = useNavigate();
 
-
-   //base url for image location
-   const img_url='https://aswanibrillyan.alwaysdata.net/static/images/'
-   let navigator = useNavigate()
-   //function to fetch products from the server 
    const getProduct = async () => {
-      setError('')
-      setLoading('fetching product please wait...');
+      setError('');
+      setLoading('Fetching products...');
 
       try {
-         const response = await axios.get("https://aswanibrillyan.alwaysdata.net/api/get_products")
-         console.log(response)
+         const response = await axios.get("https://aswanibrillyan.alwaysdata.net/api/get_products");
+
          if (response.status === 200) {
-            setLoading('')
             setProducts(response.data);
-
-            let starter_products =response.data.filter((product)=>
-               product.product_category === "starter"
-            );
-            
-            setStarter(starter_products);
-
-            let maindish_products =response.data.filter((product)=>
-               product.product_category === "main dish"
-            );
-            
-            setMainDish(maindish_products);
-
-            let dessert_products =response.data.filter((product)=>
-               product.product_category === "dessert"
-            );
-            
-            setDessert(dessert_products);
-
-
+            setLoading('');
          }
-
-
-
-
-      } catch (error) {
+      } catch (err) {
          setLoading('');
-         setError(error.message);
-
+         setError(err.message);
       }
    };
 
+   useEffect(() => {
+      getProduct();
+   }, []);
 
-   useEffect(() => { getProduct() }, [])
-
-
-
+   const displayedProducts = products.filter(p =>
+      currentFilter === "all" || p.product_category === currentFilter
+   );
 
    return (
       <div className="row">
-         <Navbar />
+         
+
          <h2 className="text-warning">Le'Menu</h2>
          <h5 className="text-warning">{loading}</h5>
          <h5 className="text-danger">{error}</h5>
 
+         <div className="d-flex justify-content-center mb-3">
+            <button className={`btn ${currentFilter === 'all' ? 'btn-warning' : 'btn-outline-warning'} me-2`} onClick={() => setCurrentFilter('all')}>All</button>
+            <button className={`btn ${currentFilter === 'starter' ? 'btn-warning' : 'btn-outline-warning'} me-2`} onClick={() => setCurrentFilter('starter')}>Starter</button>
+            <button className={`btn ${currentFilter === 'main dish' ? 'btn-warning' : 'btn-outline-warning'} me-2`} onClick={() => setCurrentFilter('main dish')}>Main Dish</button>
+            <button className={`btn ${currentFilter === 'dessert' ? 'btn-warning' : 'btn-outline-warning'} me-2`} onClick={() => setCurrentFilter('dessert')}>Dessert</button>
+         </div>
 
-         {/* map /loop over products to access one at a time */}
-         <h2 className="text-center my-3 p-4 bg-danger text-warning">starter</h2>
-         
+         {displayedProducts.map((product) => (
+            <div key={product.product_id} className="col-md-3 justify-content-center mb-4 d-flex">
+               <div className="card shadow card-margin h-100 d-flex flex-column">
+                  <img
+                     className="product_img"
+                     src={img_url + product.product_image}
+                     alt={product.product_name}
+                  />
 
-         {starter.map((product) => (
-            <div className="col-md-3 justify-content-center mb-4">
-               <div className="card shadow card-margin">
-                  <img src={img_url+product.product_image} alt="product_img mt-4" />
-
-                  <div className="card-body">
+                  <div className="card-body d-flex flex-column">
                      <h5 className="mt-2">{product.product_name}</h5>
-                     <p className="text-muted">{product.product_description}</p>
+                     {/* <p className="text-muted">{product.product_description}</p> */}
                      <b className="text-warning">{product.product_cost}</b>
-                     <br />
-                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
-                  </div>
-               </div>
-            </div>
-         ))}
-         <h2 className="text-center my-3 p-4 bg-danger text-warning">main dishes</h2>
-         {main_dish.map((product) => (
-            <div className="col-md-3 justify-content-center mb-4">
-               <div className="card shadow card-margin">
-                  <img src={img_url+product.product_image} alt="product_img mt-4" />
 
-                  <div className="card-body">
-                     <h5 className="mt-2">{product.product_name}</h5>
-                     <p className="text-muted">{product.product_description}</p>
-                     <b className="text-warning">{product.product_cost}</b>
-                     <br />
-                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
-                  </div>
-               </div>
-            </div>
-         ))}
-         <h2 className="text-center my-3 p-4 bg-danger text-warning">dessert</h2>
-         {dessert.map((product) => (
-            <div className="col-md-3 justify-content-center mb-4">
-               <div className="card shadow card-margin">
-                  <img src={img_url+product.product_image} alt="product_img mt-4" />
-
-                  <div className="card-body">
-                     <h5 className="mt-2">{product.product_name}</h5>
-                     <p className="text-muted">{product.product_description}</p>
-                     <b className="text-warning">{product.product_cost}</b>
-                     <br />
-                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
-                  </div>
-               </div>
-            </div>
-         ))}
-         {products.map((product) => (
-            <div className="col-md-3 justify-content-center mb-4">
-               <div className="card shadow card-margin">
-                  <img src={img_url+product.product_image} alt="product_img mt-4" />
-
-                  <div className="card-body">
-                     <h5 className="mt-2">{product.product_name}</h5>
-                     <p className="text-muted">{product.product_description}</p>
-                     <b className="text-warning">{product.product_cost}</b>
-                     <br />
-                     <button className="btn flaming-btn" onClick={()=>{navigator("/makepayment",{ state:{ product }})}}>Purchase now</button>
+                     <button
+                        className="btn flaming-btn mt-auto text-light"
+                        onClick={() => navigate("/makepayment", { state: { product } })}
+                     >
+                        Purchase now
+                     </button>
                   </div>
                </div>
             </div>
          ))}
       </div>
    );
-}
+};
 
 export default GetProduct;

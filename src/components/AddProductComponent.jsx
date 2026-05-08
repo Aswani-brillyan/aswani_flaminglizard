@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import Navbar from "./Navbar";
+
 
 const AddProductComponent = () => {
 
@@ -20,16 +20,30 @@ const AddProductComponent = () => {
         setSuccess('')
         setLoading('Please wait...');
 
+        const token = localStorage.getItem('token');
+        if(!token) {
+            setError('You must be logged in as the admin to make changes in the add product')
+            setLoading('')
+            return;
+        }
+
         try {
             const product_data = new FormData()
             product_data.append('product_name', product_name)
             product_data.append('product_description', product_description)
             product_data.append('product_cost', product_cost)
             product_data.append('product_category', product_category)
-            product_data.append('product_image', product_image)
+            product_data.append('product_image', product_image);
 
 
-            const response = await axios.post('https://aswanibrillyan.alwaysdata.net/api/add_product',product_data);
+            const response = await axios.post(
+                'https://aswanibrillyan.alwaysdata.net/api/add_product',
+                product_data,
+            {
+                header: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             console.log(response);
             if (response.status===200){
                 setLoading('')
@@ -40,11 +54,13 @@ const AddProductComponent = () => {
                 setProductDescription('')
                 setProductCost('')
                 setProductCategory('')
+                setProductImage('')
                 
             }
 
         } catch (error) {
-            setError(error.message)
+            const backendMessage = error.response?.data?.message;
+            setError(backendMessage || error.message);
             setLoading('');
 
         }
@@ -54,7 +70,7 @@ const AddProductComponent = () => {
 
     return (
         <div className="row justify-content-center mt-4">
-            <Navbar />
+  
             <div className="col-md-6 card shadow p-4">
                 <h2>Add Product</h2>
                 <h5 className="text-danger">{error}</h5>

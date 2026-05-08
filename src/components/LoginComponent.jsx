@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+
 
 const LoginComponent = () => {
     let [email, updateEmail] = useState('')
@@ -32,7 +32,7 @@ const LoginComponent = () => {
 
             if (response.status === 200) {
                 if (response.data.user) {
-
+                    localStorage.setItem("user", JSON.stringify(response.data.user))
                     setSuccess(response.data.message)
                     navigate('/')
 
@@ -57,7 +57,7 @@ const LoginComponent = () => {
 
     return (
         <div className="row justify-content-center mt-4">
-            <Navbar />
+
             <div className="col-md-6 card shadow p-4">
                 <h2>Login:</h2>
                 <h5 className="text-warning">{loading}</h5>

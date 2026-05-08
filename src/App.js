@@ -5,6 +5,8 @@ import SignUpCompenent from './components/SignUpComponent';
 import LoginComponent from './components/LoginComponent';
 import AddProductComponent from './components/AddProductComponent';
 import GetProduct from './components/GetProduct';
+import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "bootstrap/dist/js/bootstrap.min.js"
@@ -19,17 +21,27 @@ function App() {
           <header className="App-header">
             <h1 className='gradient-text'>FLAMING LIZARD</h1>
           </header>
+          <Navbar />
 
           <Routes>
             <Route path='/signup'element={<SignUpCompenent/>} />
             <Route path='/login'element={<LoginComponent/>} />
             <Route path='/addproduct'element={<AddProductComponent/>} />
-            <Route path='/'element={<GetProduct/>} />
+            
             <Route path='/makepayment' element={<MakePayment />} />
+          
+            <Route path='/'element={
+              <ProtectedRoute>
+                <GetProduct/>
+              </ProtectedRoute>
+            }
+            />
+
           </Routes>
         </div>
           </div>
     </BrowserRouter>
+    
   );
 }
 

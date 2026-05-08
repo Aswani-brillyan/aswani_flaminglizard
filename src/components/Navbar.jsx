@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 
+
 const Navbar = () => {
+
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user") || "null");
 
@@ -24,7 +26,16 @@ const Navbar = () => {
             <div className="collapse navbar-collapse" id='navbarCollapse'>
                 <div className="navbar-nav">
                     <Link className="nav-link" to='/'>Home</Link>
-                    <Link className="nav-link" to='/addproduct'>Add Dish</Link>
+
+                    {user && user.username === "aswani.admin" && (
+                        <Link className="nav-link" to="/addproduct">
+                            Add Dish
+                        </Link>
+                    )}
+
+
+
+
                 </div>
 
                 {user ? (
