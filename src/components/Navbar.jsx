@@ -49,7 +49,7 @@ const Navbar = () => {
                     )}
                     {user&&(
                         <Link className="nav-link" to="/cart">
-                            Cart{cartCount> 0 ? `(${cartCount})`:''}
+                            Orders{cartCount> 0 ? `(${cartCount})`:''}
                         </Link>
                     )}
 

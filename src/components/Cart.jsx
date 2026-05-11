@@ -17,9 +17,16 @@ const Cart = () => {
       return;
     }
 
-    const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    setCartItems(storedCart);
-  }, [navigate]);
+    const loadCart = () =>{
+        const storedCart= JSON.parse(localStorage.getItem("cart")||"[]")
+        setCartItems(storedCart);
+    };
+
+    loadCart();
+
+    window.addEventListener("storage", loadCart);
+    return () => window.removeEventListener("storage", loadCart)
+}, [navigate]);
 
   useEffect(() => {
     const newTotal = cartItems.reduce(
@@ -67,7 +74,7 @@ const Cart = () => {
     <div className="row justify-content-center mt-4 text-light">
       
       <div className="col-md-10 card shadow p-4">
-        <h2>Shopping Cart</h2>
+        <h2>The Orders</h2>
         <h6 className="text-warning">{loading}</h6>
         <h6 className="text-danger">{error}</h6>
         <h6 className="text-success">{success}</h6>

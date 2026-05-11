@@ -82,7 +82,7 @@ const GetProduct = () => {
                      <b className="text-warning">{product.product_cost}</b>
 
 
-                     <button className="btn btn-warning me-2" onClick={()=>addToCart(product)}>Add to Cart</button>
+                     <button className="btn btn-warning me-2" onClick={()=>addToCart(product)}>Add to Order</button>
                      <button
                         className="btn flaming-btn mt-auto text-light"
                         onClick={() => navigate("/makepayment", { state: { product } })}
