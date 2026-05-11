@@ -7,7 +7,7 @@ import AddProductComponent from './components/AddProductComponent';
 import GetProduct from './components/GetProduct';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import Cart from './components/Cart'; 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "bootstrap/dist/js/bootstrap.min.js"
 import MakePayment from"./components/MakePayment";
@@ -27,7 +27,7 @@ function App() {
             <Route path='/signup'element={<SignUpCompenent/>} />
             <Route path='/login'element={<LoginComponent/>} />
             <Route path='/addproduct'element={<AddProductComponent/>} />
-            
+            <Route path='/cart'element={<Cart/>}/>            
             <Route path='/makepayment' element={<MakePayment />} />
           
             <Route path='/'element={

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -5,6 +6,20 @@ const Navbar = () => {
 
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user") || "null");
+    const[cartCount, setcartCount] =useState(0);
+
+    useEffect(()=>{
+        const updateCartCount = () => {
+            const cart = JSON.parse(localStorage.getItem("cart") || "[]")
+            const count = cart.reduce((sum, item)=> sum + (item.quantity || 1),0);
+            setcartCount(count);
+        };
+
+        updateCartCount();
+        window.addEventListener("storage",updateCartCount);
+        return ()=> window.removeEventListener("storage", updateCartCount)
+
+    },[]);
 
     const handleLogout = () => {
         localStorage.removeItem("user");
@@ -30,6 +45,11 @@ const Navbar = () => {
                     {user && user.username === "aswani.admin" && (
                         <Link className="nav-link" to="/addproduct">
                             Add Dish
+                        </Link>
+                    )}
+                    {user&&(
+                        <Link className="nav-link" to="/cart">
+                            Cart{cartCount> 0 ? `(${cartCount})`:''}
                         </Link>
                     )}
 
