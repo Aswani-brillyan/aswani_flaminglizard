@@ -29,18 +29,18 @@ const GetProduct = () => {
       }
    };
 
-   const addToCart = (product)=>{
-      const cart =JSON.parse(localStorage.getItem("cart")||"[]");
-      const existingItem = cart.find((item)=>item.product_id===product.product_id);
+   const addToCart = (product) => {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const existingItem = cart.find((item) => item.product_id === product.product_id);
 
-      if (existingItem){
+      if (existingItem) {
          existingItem.quantity += 1;
       } else {
-         cart.push({...product, quantity: 1});
+         cart.push({ ...product, quantity: 1 });
       }
 
-      localStorage.setItem("cart",JSON.stringify(cart));
-      window.dispatchEvent(new Event("storage"))
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // window.dispatchEvent(new Event("storage"))
 
    };
 
@@ -54,7 +54,7 @@ const GetProduct = () => {
 
    return (
       <div className="row">
-         
+
 
          <h2 className="text-warning">Le'Menu</h2>
          <h5 className="text-warning">{loading}</h5>
@@ -82,7 +82,7 @@ const GetProduct = () => {
                      <b className="text-warning">{product.product_cost}</b>
 
 
-                     <button className="btn btn-warning me-2" onClick={()=>addToCart(product)}>Add to Order</button>
+                     <button className="btn btn-warning me-2" onClick={() => addToCart(product)}>Add to Order</button>
                      <button
                         className="btn flaming-btn mt-auto text-light"
                         onClick={() => navigate("/makepayment", { state: { product } })}
